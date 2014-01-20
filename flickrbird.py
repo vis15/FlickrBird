@@ -35,7 +35,7 @@ __author__ = 'Abhinay Omkar <abhiomkar AT gmail DOT com>'
 import urllib, os, flickrapi
 
 # Replace the below value with whatever URL of your Flickr photostream
-_userFlickr = 'http://flickr.com/photos/your_flickr_url'
+_userFlickr = 'https://secure.flickr.com/photos/varelaphotography/'
 
 # 's'	small square 75x75
 # 't'	thumbnail, 100 on longest side
@@ -43,7 +43,7 @@ _userFlickr = 'http://flickr.com/photos/your_flickr_url'
 # ''	medium, 500 on longest side
 # 'b'	large, 1024 on longest side (only exists for very large original images)
 # 'o'	original image, either a jpg, gif or png, depending on source format (Pro Account Only)
-_photoSize = ''
+_photoSize = 'o'
 
 def main():
 	global _photoSize
@@ -87,6 +87,10 @@ def main():
 				photoSizes['small'] = size
 			elif size[-6:-4] == '_b':
 				photoSizes['large'] = size
+			elif size[-6:-4] == '_k':
+			    photoSizes['largek'] = size
+			elif size[-6:-4] == '_h':
+			    photoSizes['largeh'] = size
 			elif size[-6:-4] == '_o':
 				photoSizes['original'] = size
 			else:
@@ -106,9 +110,17 @@ def main():
 			photoDownload = photoSizes['medium']
 		elif _photoSize == 'b' and photoSizes.has_key('large'):
 			photoDownload = photoSizes['large']
+		elif _photoSize == 'k' and photoSizes.has_key('largek'):
+			photoDownload = photoSizes['largek']
+		elif _photoSize == 'h' and photoSizes.has_key('largeh'):
+			photoDownload = photoSizes['large']
 		elif _photoSize == 'o':
 			if photoSizes.has_key('original'):
 				photoDownload = photoSizes['original']
+			elif photoSizes.has_key('largek'):
+				photoDownload = photoSizes['largek']
+			elif photoSizes.has_key('largeh'):
+				photoDownload = photoSizes['largeh']
 			elif photoSizes.has_key('large'):
 				photoDownload = photoSizes['large']
 			elif photoSizes.has_key('medium'):
